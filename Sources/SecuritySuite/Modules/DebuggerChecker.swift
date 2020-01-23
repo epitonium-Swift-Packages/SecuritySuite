@@ -24,7 +24,7 @@ internal class DebuggerChecker {
         let sysctlRet = sysctl(&mib, UInt32(mib.count), &kinfo, &size, nil, 0)
 
         if sysctlRet != 0 {
-            print("Error occured when calling sysctl(). The debugger check may be not reliable")
+            print("SecuritySuite: Error occured when calling sysctl(). The debugger check may be not reliable")
         }
         
         return (kinfo.kp_proc.p_flag & P_TRACED) != 0
@@ -44,7 +44,7 @@ internal class DebuggerChecker {
         let ptraceRet = ptrace(31, 0, 0, 0)
         
         if ptraceRet != 0 {
-            print("Error occured when calling ptrace(). Denying debugger may not be reliable")
+            print("SecuritySuite: Error occured when calling ptrace(). Denying debugger may not be reliable")
         }
     }
 }

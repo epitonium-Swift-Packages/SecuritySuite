@@ -6,7 +6,6 @@
 //  Copyright © 2019 Neiron Digital. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import Darwin
 import MachO

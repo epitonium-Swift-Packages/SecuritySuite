@@ -6,143 +6,95 @@
 //  Copyright © 2019 Neiron Digital. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 // ...........
 
-public class SecuritySuite {
+final public class SecuritySuite {
+    
+    //                                      MARK: - CONTROLS
+    //..............................................................................................
+    
+    // MARK: Default values
+    
+    private struct DefaultValues {
+        
+        static var isJailBrokenCheckEnabled         = true
+        static var isDebuggerCheckEnabled           = true
+        static var isEmulatorCheckEnabled           = true
+        static var isReverseEngineeringCheckEnabled = true
+    }
+    
+    //                                      MARK: - STRUCTURE
+    //..............................................................................................
+    
+    public enum SecError {
+        
+        case jailBroken
+        case debugger
+        case emulator
+        case reverseEngineering
+    }
+    
+    // ...........
+    
+    public enum SecuritySuiteCheckResult {
+
+        case succes
+        case failure(SecError)
+    }
+    
+    //  MARK: - SETUPS
+    // ///////////////////////////////////////////
+    
+    public static func setup(isJailBrokenCheckEnabled: Bool,
+                             isDebuggerCheckEnabled: Bool,
+                             isEmulatorCheckEnabled: Bool,
+                             isReverseEngineeringCheckEnabled: Bool) {
+
+        DefaultValues.isJailBrokenCheckEnabled         = isJailBrokenCheckEnabled
+        DefaultValues.isDebuggerCheckEnabled           = isDebuggerCheckEnabled
+        DefaultValues.isEmulatorCheckEnabled           = isEmulatorCheckEnabled
+        DefaultValues.isReverseEngineeringCheckEnabled = isReverseEngineeringCheckEnabled
+    }
     
     //  MARK: - METHODS 🌐 PUBLIC
     // ///////////////////////////////////////////
     
-    /**
-     This type method is used to determine the true/false jailbreak status
-     
-     Usage example
-     ```
-     let isDeviceJailbroken = SecuritySuite.amIJailbroken() ? true : false
-     ```
-     */
-    public static func amIJailbroken() -> Bool {
+    public static func checkSecurityIssues() -> SecuritySuiteCheckResult {
+
+        // Check Jailbroken
         
-        let result = JailbreakChecker.amIJailbroken()
-        
-        switch result {
-        case true:
-            print("Jailbrake check: ⛔️")
-        case false:
-            print("Jailbrake check: ✅")
+        if DefaultValues.isJailBrokenCheckEnabled {
+            guard !MainMethods.amIJailbroken() else {
+                return .failure(.jailBroken)
+            }
         }
         
-        return result
-    }
-    
-    // ...........
-    
-    /**
-     This type method is used to determine the jailbreak status with a message which jailbreak indicator was detected
-     
-     Usage example
-     ```
-     let jailbreakStatus = SecuritySuite.amIJailbrokenWithFailMessage()
-     if jailbreakStatus.jailbroken {
-     print("This device is jailbroken")
-     print("Because: \(jailbreakStatus.failMessage)")
-     } else {
-     print("This device is not jailbroken")
-     }
-     ```
-     
-     - Returns: Tuple with with the jailbreak status *Bool* labeled *jailbroken* and *String* labeled *failMessage*
-     to determine check that failed
-     */
-    public static func amIJailbrokenWithFailMessage() -> (jailbroken: Bool, failMessage: String) {
-        return JailbreakChecker.amIJailbrokenWithFailMessage()
-    }
-    
-    // ...........
-    
-    /**
-     This type method is used to determine if application is run in emulator
-     
-     Usage example
-     ```
-     let runInEmulator = SecuritySuite.amIRunInEmulator() ? true : false
-     ```
-     */
-    public static func amIRunInEmulator() -> Bool {
+        // Check Debugger
         
-        let result = EmulatorChecker.amIRunInEmulator()
-        
-        switch result {
-        case true:
-            print("Emulator check: ⛔️")
-        case false:
-            print("Emulator check: ✅")
+        if DefaultValues.isDebuggerCheckEnabled {
+            guard !MainMethods.amIDebugged() else {
+                return .failure(.debugger)
+            }
         }
         
-        return result
-    }
-    
-    // ...........
-    
-    /**
-     This type method is used to determine if application is being debugged
-     
-     Usage example
-     ```
-     let amIDebugged = SecuritySuite.amIDebugged() ? true : false
-     ```
-     */
-    public static func amIDebugged() -> Bool {
+        // Check Emulator
         
-        let result = DebuggerChecker.amIDebugged()
-        
-        switch result {
-        case true:
-            print("Debugger check: ⛔️")
-        case false:
-            print("Debugger check: ✅")
+        if DefaultValues.isEmulatorCheckEnabled {
+            guard !MainMethods.amIRunInEmulator() else {
+                return .failure(.emulator)
+            }
         }
         
-        return result
-    }
-    
-    // ...........
-    
-    /**
-     This type method is used to deny debugger and improve the application resillency
-     
-     Usage example
-     ```
-     SecuritySuite.denyDebugger()
-     ```
-     */
-    public static func denyDebugger() {
-        return DebuggerChecker.denyDebugger()
-    }
-    
-    // ...........
-    
-    /**
-     This type method is used to determine if there are any popular reverse engineering tools installed on the device
-     
-     Usage example
-     ```
-     let amIReverseEngineered = SecuritySuite.amIReverseEngineered() ? true : false
-     ```
-     */
-    public static func amIReverseEngineered() -> Bool {
+        // Check Reverse Engineering
         
-        let result = ReverseEngineeringToolsChecker.amIReverseEngineered()
-        
-        switch result {
-        case true:
-            print("Reverse Engineering check: ⛔️")
-        case false:
-            print("Reverse Engineering check: ✅")
+        if DefaultValues.isReverseEngineeringCheckEnabled {
+            guard !MainMethods.amIReverseEngineered() else {
+                return .failure(.reverseEngineering)
+            }
         }
         
-        return result
+        return .succes
     }
 }
