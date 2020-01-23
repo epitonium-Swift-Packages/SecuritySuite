@@ -12,10 +12,8 @@ import UIKit
 
 final public class SecuritySuite {
     
-    //                                      MARK: - CONTROLS
+    //                                      MARK: - DEFAULT VALUES
     //..............................................................................................
-    
-    // MARK: Default values
     
     private struct DefaultValues {
         
@@ -23,25 +21,6 @@ final public class SecuritySuite {
         static var isDebuggerCheckEnabled           = true
         static var isEmulatorCheckEnabled           = true
         static var isReverseEngineeringCheckEnabled = true
-    }
-    
-    //                                      MARK: - STRUCTURE
-    //..............................................................................................
-    
-    public enum SecError {
-        
-        case jailBroken
-        case debugger
-        case emulator
-        case reverseEngineering
-    }
-    
-    // ...........
-    
-    public enum SecuritySuiteCheckResult {
-
-        case succes
-        case failure(SecError)
     }
     
     //  MARK: - SETUPS
@@ -96,5 +75,24 @@ final public class SecuritySuite {
         }
         
         return .succes
+    }
+    
+    //                                      MARK: - STRUCTURE
+    //..............................................................................................
+    
+    public enum SecError {
+        
+        case jailBroken
+        case debugger
+        case emulator
+        case reverseEngineering
+    }
+    
+    // ...........
+    
+    public enum SecuritySuiteCheckResult {
+
+        case succes
+        case failure(SecError)
     }
 }
