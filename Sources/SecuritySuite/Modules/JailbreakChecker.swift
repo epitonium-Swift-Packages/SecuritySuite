@@ -2,37 +2,29 @@
 //  JailbreakChecker.swift
 //  SecuritySuite
 //
-//  Created by Vitalis on 23/01/2020.
+//  Created by Vitalis Girsas on 23/01/2020.
 //  Copyright © 2019 Neiron Digital. All rights reserved.
 //
 
 import UIKit
 import Darwin
 import MachO
-
 // ...........
-
 internal class JailbreakChecker {
-    
-    //  MARK: - METHODS 🌐 PUBLIC
+    //  MARK: - METHODS 🔄 INTERNAL
     // ///////////////////////////////////////////
-    
-    static func amIJailbroken() -> Bool {
-        return !performChecks().passed
+    internal static func amIJailbroken() -> Bool {
+        !performChecks().passed
     }
-    
     // ...........
-    
-    static func amIJailbrokenWithFailMessage() -> (jailbroken: Bool, failMessage: String) {
+    internal static func amIJailbrokenWithFailMessage() -> (jailbroken: Bool, failMessage: String) {
         let performChecksReturn = performChecks()
         return (!performChecksReturn.passed, performChecksReturn.failMessage)
     }
     
     //  MARK: - METHODS 🔰 PRIVATE
     // ///////////////////////////////////////////
-    
     private static func performChecks() -> (passed: Bool, failMessage: String) {
-        
         let checklist = [
             checkURLSchemes(),
             checkExistenceOfSuspiciousFiles(),
@@ -42,10 +34,8 @@ internal class JailbreakChecker {
             checkSymbolicLinks(),
             checkDYLD()
         ]
-        
         var passed = true
         var failMessage = ""
-        
         for check in checklist {
             passed = passed && check.passed
             if !failMessage.isEmpty && !check.passed {
@@ -53,33 +43,24 @@ internal class JailbreakChecker {
             }
             failMessage += check.failMessage
         }
-        
         return (passed, failMessage)
     }
-    
     // ...........
-    
     private static func checkURLSchemes() -> (passed: Bool, failMessage: String) {
-        
         let urlSchemes = [
             "undecimus://",
             "cydia://",
             "sileo://"
         ]
-        
         for urlScheme in urlSchemes {
             if UIApplication.shared.canOpenURL(URL(string: urlScheme)!) {
                 return(false, "\(urlScheme) URL scheme detected")
             }
         }
-        
         return (true, "")
     }
-    
     // ...........
-    
     private static func checkExistenceOfSuspiciousFiles() -> (passed: Bool, failMessage: String) {
-        
         let paths = [
             "/usr/sbin/frida-server", // frida
             "/etc/apt/sources.list.d/electra.list", // electra
@@ -109,20 +90,15 @@ internal class JailbreakChecker {
             "/usr/libexec/ssh-keysign",
             "/Applications/Cydia.app"
         ]
-        
         for path in paths {
             if FileManager.default.fileExists(atPath: path) {
                 return (false, "Suspicious file exists: \(path)")
             }
         }
-        
         return (true, "")
     }
-    
     // ...........
-    
     private static func checkSuspiciousFilesCanBeOpened() -> (passed: Bool, failMessage: String) {
-        
         let paths = [
             "/.installed_unc0ver",
             "/.bootstrapped_electra",
@@ -134,28 +110,22 @@ internal class JailbreakChecker {
             "/usr/bin/ssh",
             "/var/log/apt"
         ]
-        
         for path in paths {
             
             if FileManager.default.isReadableFile(atPath: path) {
                 return (false, "Suspicious file can be opened: \(path)")
             }
         }
-        
         return (true, "")
     }
-    
     // ...........
-    
     private static func checkRestrictedDirectoriesWriteable() -> (passed: Bool, failMessage: String) {
-        
         let paths = [
             "/",
             "/root/",
             "/private/",
             "/jb/"
         ]
-        
         // If library won't be able to write to any restricted directory the return(false, ...) is never reached
         // because of catch{} statement
         for path in paths {
@@ -166,34 +136,25 @@ internal class JailbreakChecker {
                 return (false, "Wrote to restricted path: \(path)")
             } catch {}
         }
-        
         return (true, "")
     }
-    
     // ...........
-    
     private static func checkFork() -> (passed: Bool, failMessage: String) {
-        
         let pointerToFork = UnsafeMutableRawPointer(bitPattern: -2)
         let forkPtr = dlsym(pointerToFork, "fork")
         typealias ForkType = @convention(c) () -> pid_t
         let fork = unsafeBitCast(forkPtr, to: ForkType.self)
         let forkResult = fork()
-        
         if forkResult >= 0 {
             if forkResult > 0 {
                 kill(forkResult, SIGTERM)
             }
             return (false, "Fork was able to create a new process (sandbox violation)")
         }
-        
         return (true, "")
     }
-    
     // ...........
-    
     private static func checkSymbolicLinks() -> (passed: Bool, failMessage: String) {
-        
         let paths = [
             "/var/lib/undecimus/apt", // unc0ver
             "/Applications",
@@ -204,7 +165,6 @@ internal class JailbreakChecker {
             "/usr/libexec",
             "/usr/share"
         ]
-        
         for path in paths {
             do {
                 let result = try FileManager.default.destinationOfSymbolicLink(atPath: path)
@@ -213,14 +173,10 @@ internal class JailbreakChecker {
                 }
             } catch {}
         }
-        
         return (true, "")
     }
-    
     // ...........
-    
     private static func checkDYLD() -> (passed: Bool, failMessage: String) {
-        
         let suspiciousLibraries = [
             "SubstrateLoader.dylib",
             "SSLKillSwitch2.dylib",
@@ -234,7 +190,6 @@ internal class JailbreakChecker {
             "RocketBootstrap",
             "WeeLoader"
         ]
-        
         for libraryIndex in 0..<_dyld_image_count() {
             
             // _dyld_get_image_name returns const char * that needs to be casted to Swift String
@@ -246,7 +201,6 @@ internal class JailbreakChecker {
                 }
             }
         }
-        
         return (true, "")
     }
 }

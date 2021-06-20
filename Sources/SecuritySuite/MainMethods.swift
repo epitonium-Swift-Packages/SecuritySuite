@@ -2,19 +2,15 @@
 //  MainMethods.swift
 //  SecuritySuite
 //
-//  Created by Vitalis on 23/01/2020.
+//  Created by Vitalis Girsas on 23/01/2020.
 //  Copyright © 2019 Neiron Digital. All rights reserved.
 //
 
 import Foundation
-
 // ...........
-
 internal class MainMethods {
-    
     //  MARK: - METHODS 🌐 PUBLIC
     // ///////////////////////////////////////////
-    
     /**
      This type method is used to determine the true/false jailbreak status
      
@@ -24,21 +20,16 @@ internal class MainMethods {
      ```
      */
     internal static func amIJailbroken() -> Bool {
-        
         let result = JailbreakChecker.amIJailbroken()
-        
         switch result {
         case true:
-            print("SecuritySuite: Jailbrake check: ⛔️")
+            Logger.logAdapter?.info(mesage: "SecuritySuite: Jailbrake check: ⛔️")
         case false:
-            print("SecuritySuite: Jailbrake check: ✅")
+            Logger.logAdapter?.info(mesage: "SecuritySuite: Jailbrake check: ✅")
         }
-        
         return result
     }
-    
     // ...........
-    
     /**
      This type method is used to determine the jailbreak status with a message which jailbreak indicator was detected
      
@@ -57,11 +48,9 @@ internal class MainMethods {
      to determine check that failed
      */
     internal static func amIJailbrokenWithFailMessage() -> (jailbroken: Bool, failMessage: String) {
-        return JailbreakChecker.amIJailbrokenWithFailMessage()
+        JailbreakChecker.amIJailbrokenWithFailMessage()
     }
-    
     // ...........
-    
     /**
      This type method is used to determine if application is run in emulator
      
@@ -71,21 +60,16 @@ internal class MainMethods {
      ```
      */
     internal static func amIRunInEmulator() -> Bool {
-        
         let result = EmulatorChecker.amIRunInEmulator()
-        
         switch result {
         case true:
-            print("SecuritySuite: Emulator check: ⛔️")
+            Logger.logAdapter?.info(mesage: "SecuritySuite: Emulator check: ⛔️")
         case false:
-            print("SecuritySuite: Emulator check: ✅")
+            Logger.logAdapter?.info(mesage: "SecuritySuite: Emulator check: ✅")
         }
-        
         return result
     }
-    
     // ...........
-    
     /**
      This type method is used to determine if application is being debugged
      
@@ -95,21 +79,16 @@ internal class MainMethods {
      ```
      */
     internal static func amIDebugged() -> Bool {
-        
         let result = DebuggerChecker.amIDebugged()
-        
         switch result {
         case true:
-            print("SecuritySuite: Debugger check: ⛔️")
+            Logger.logAdapter?.info(mesage: "SecuritySuite: Debugger check: ⛔️")
         case false:
-            print("SecuritySuite: Debugger check: ✅")
+            Logger.logAdapter?.info(mesage: "SecuritySuite: Debugger check: ✅")
         }
-        
         return result
     }
-    
     // ...........
-    
     /**
      This type method is used to deny debugger and improve the application resillency
      
@@ -119,11 +98,9 @@ internal class MainMethods {
      ```
      */
     internal static func denyDebugger() {
-        return DebuggerChecker.denyDebugger()
+        DebuggerChecker.denyDebugger()
     }
-    
     // ...........
-    
     /**
      This type method is used to determine if there are any popular reverse engineering tools installed on the device
      
@@ -133,16 +110,13 @@ internal class MainMethods {
      ```
      */
     internal static func amIReverseEngineered() -> Bool {
-        
         let result = ReverseEngineeringToolsChecker.amIReverseEngineered()
-        
         switch result {
         case true:
-            print("SecuritySuite: Reverse Engineering check: ⛔️")
+            Logger.logAdapter?.info(mesage: "SecuritySuite: Reverse Engineering check: ⛔️")
         case false:
-            print("SecuritySuite: Reverse Engineering check: ✅")
+            Logger.logAdapter?.info(mesage: "SecuritySuite: Reverse Engineering check: ✅")
         }
-        
         return result
     }
 }
