@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="Images/Splash.png"/>
+    <img src="Images/logo.svg" width="180" height="180"/>
 </p>
 
 <h1 align="center">SecuritySuite</h1>
