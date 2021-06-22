@@ -23,9 +23,9 @@ internal class MainMethods {
         let result = JailbreakChecker.amIJailbroken()
         switch result {
         case true:
-            Logger.logAdapter?.info(mesage: "SecuritySuite: Jailbrake check: ⛔️")
+            Log?.info(mesage: "SecuritySuite: Jailbrake check: ⛔️")
         case false:
-            Logger.logAdapter?.info(mesage: "SecuritySuite: Jailbrake check: ✅")
+            Log?.info(mesage: "SecuritySuite: Jailbrake check: ✅")
         }
         return result
     }
@@ -63,9 +63,9 @@ internal class MainMethods {
         let result = EmulatorChecker.amIRunInEmulator()
         switch result {
         case true:
-            Logger.logAdapter?.info(mesage: "SecuritySuite: Emulator check: ⛔️")
+            Log?.info(mesage: "SecuritySuite: Emulator check: ⛔️")
         case false:
-            Logger.logAdapter?.info(mesage: "SecuritySuite: Emulator check: ✅")
+            Log?.info(mesage: "SecuritySuite: Emulator check: ✅")
         }
         return result
     }
@@ -82,9 +82,9 @@ internal class MainMethods {
         let result = DebuggerChecker.amIDebugged()
         switch result {
         case true:
-            Logger.logAdapter?.info(mesage: "SecuritySuite: Debugger check: ⛔️")
+            Log?.info(mesage: "SecuritySuite: Debugger check: ⛔️")
         case false:
-            Logger.logAdapter?.info(mesage: "SecuritySuite: Debugger check: ✅")
+            Log?.info(mesage: "SecuritySuite: Debugger check: ✅")
         }
         return result
     }
@@ -113,9 +113,9 @@ internal class MainMethods {
         let result = ReverseEngineeringToolsChecker.amIReverseEngineered()
         switch result {
         case true:
-            Logger.logAdapter?.info(mesage: "SecuritySuite: Reverse Engineering check: ⛔️")
+            Log?.info(mesage: "SecuritySuite: Reverse Engineering check: ⛔️")
         case false:
-            Logger.logAdapter?.info(mesage: "SecuritySuite: Reverse Engineering check: ✅")
+            Log?.info(mesage: "SecuritySuite: Reverse Engineering check: ✅")
         }
         return result
     }

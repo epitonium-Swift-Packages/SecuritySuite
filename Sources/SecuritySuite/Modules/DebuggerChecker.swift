@@ -18,7 +18,7 @@ internal class DebuggerChecker {
         var size = MemoryLayout<kinfo_proc>.stride
         let sysctlRet = sysctl(&mib, UInt32(mib.count), &kinfo, &size, nil, 0)
         if sysctlRet != 0 {
-            Logger.logAdapter?.error(mesage: "SecuritySuite: Error occured when calling sysctl(). The debugger check may be not reliable")
+            Log?.error(mesage: "SecuritySuite: Error occured when calling sysctl(). The debugger check may be not reliable")
         }
         return (kinfo.kp_proc.p_flag & P_TRACED) != 0
     }
@@ -32,7 +32,7 @@ internal class DebuggerChecker {
         // PT_DENY_ATTACH == 31
         let ptraceRet = ptrace(31, 0, 0, 0)
         if ptraceRet != 0 {
-            Logger.logAdapter?.error(mesage: "SecuritySuite: Error occured when calling ptrace(). Denying debugger may not be reliable")
+            Log?.error(mesage: "SecuritySuite: Error occured when calling ptrace(). Denying debugger may not be reliable")
         }
     }
 }

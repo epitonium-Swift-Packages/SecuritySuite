@@ -9,28 +9,31 @@
 import Foundation
 // ...........
 public protocol SecuritySuiteLogAdapter {
-    func verbose(mesage: String)
-    func debug(mesage: String)
     func info(mesage: String)
-    func warning(mesage: String)
     func error(mesage: String)
 }
 // ...........
-internal class Logger {
-    //  MARK: - INITS
-    // ////////////////////////////////////
-    private init() {
-        // ✔️ NONE
+public enum LogType {
+    case disabled
+    case `default`
+    case custom(SecuritySuiteLogAdapter)
+}
+// ...........
+internal var Log: SecuritySuiteLogAdapter? {
+    // Get log
+    guard case (.enabled(_,_,_,_, let log)) = SecuritySuite.DefaultValues.state else {
+        return nil
     }
-    
-    // MARK: - PROPERTIES 🔰 PRIVATE
-    // ////////////////////////////////////
-    private(set) static var logAdapter: SecuritySuiteLogAdapter?
-    
-    //  MARK: - METHODS 🔄 INTERNAL
-    // ///////////////////////////////////////////
-    internal static func set(adapter: SecuritySuiteLogAdapter) {
-        logAdapter = adapter
+    // Handle log
+    switch log {
+    case .disabled:
+        return nil
+    // ...........
+    case .default:
+        return DefaultLogAdapter()
+    // ...........
+    case .custom(let adapter):
+        return adapter
     }
 }
 // ...........
