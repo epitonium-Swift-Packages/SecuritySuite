@@ -45,5 +45,4 @@ case .failure(let securityError):
 `SecuritySuite` uses its own printing methods to log errors or success by default, but if you want those messages to pass through your own logging system create an adapter instance by conforming to `SecuritySuiteLogAdapter` protocol and pass it as `log` parameter when calling `setup` function or you can completely disable it.
 
 ## License
-
-`SecuritySuite` is distributed under the terms and conditions of the [MIT license](https://github.com/epitonium/SecuritySuite/blob/main/LICENSE).
+`SecuritySuite` is distributed under the terms and conditions of the [LICENSE](https://github.com/epitonium-Swift-Packages/SecuritySuite/blob/master/LICENSE).
