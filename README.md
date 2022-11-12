@@ -7,7 +7,6 @@
 <p align="center">
 <img src="https://img.shields.io/badge/SPM-Swift%20Package-FA7343?logo=Swift&style=for-the-badge&logoColor=white" alt="Swift Package">
 <br>
-<br>
     <img src="https://img.shields.io/badge/Platform-iOS-blue.svg" /></a>
 </p>
 
