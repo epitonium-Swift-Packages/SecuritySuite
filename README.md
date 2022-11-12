@@ -9,8 +9,6 @@
 <br>
 <br>
     <img src="https://img.shields.io/badge/Platform-iOS-blue.svg" /></a>
-    <a href="https://github.com/epitonium/SecuritySuite/blob/main/LICENSE" alt="License">
-        <img src="https://img.shields.io/cocoapods/l/SVProgressHUD.svg?style=flat"></a>    
 </p>
 
 ## Description
