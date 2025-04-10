@@ -10,7 +10,7 @@ import Foundation
 // ...........
 public protocol SecuritySuiteLogAdapter {
     func info(mesage: String)
-    func error(mesage: String)
+    func warning(mesage: String)
 }
 // ...........
 public enum LogType {
